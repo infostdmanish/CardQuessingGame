@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.9">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="shaky"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2017-12-22 05:11:34 PM"/>
+        <attribute name="created" value="c2hha3k7IERFU0tUT1AtTzJVSEdRRDsgMjAxNy0xMi0yMDsgMTA6MTc6NTAgQU07IDI5ODc="/>
+        <attribute name="edited" value="c2hha3k7IERFU0tUT1AtTzJVSEdRRDsgMjAxNy0xMi0yMjsgMDU6MTE6MzQgUE07IDMwMDQ="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <output expression="&quot;Hello, what is your name?&quot;" newline="True"/>
+            <declare name="username" type="String" array="False" size=""/>
+            <input variable="username"/>
+            <while expression="username==&quot;&quot;">
+                <output expression="&quot;Please! enter your username&quot;" newline="True"/>
+                <input variable="username"/>
+            </while>
+            <output expression="username&amp; &quot;, welcome to the Card Guessing Game!&quot;" newline="True"/>
+            <output expression="&quot;Play game (P) or Quit (Q)?&quot;" newline="True"/>
+            <declare name="gameOption" type="String" array="False" size=""/>
+            <input variable="gameOption"/>
+            <call expression="gameMenuSelection(gameOption,username)"/>
+        </body>
+    </function>
+    <function name="checkGuessCard" type="Integer" variable="correctGuess">
+        <parameters>
+            <parameter name="guessCard" type="String" array="False"/>
+            <parameter name="computerCard" type="Integer" array="False"/>
+            <parameter name="userCard" type="Integer" array="False"/>
+            <parameter name="computerCardName" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="correctGuess" type="Integer" array="False" size=""/>
+            <if expression="guessCard==&quot;H&quot; || guessCard==&quot;h&quot;">
+                <then>
+                    <if expression="computerCard &gt; userCard">
+                        <then>
+                            <output expression="&quot;The computer&#8217;s card is &quot; &amp; computerCard &amp;&quot; &quot;&amp;computerCardName&amp;&quot; .  Well done, you guessed right!&quot;" newline="True"/>
+                            <assign variable="correctGuess" expression="1"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;The computer&#8217;s card is &quot; &amp; computerCard &amp;&quot; &quot;&amp;computerCardName&amp;  &quot;. Sorry, better luck next time.&quot;" newline="True"/>
+                            <assign variable="correctGuess" expression="0"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <if expression="guessCard==&quot;L&quot; || guessCard==&quot;l&quot;">
+                        <then>
+                            <if expression="computerCard&lt;userCard">
+                                <then>
+                                    <output expression="&quot;The computer&#8217;s card is &quot; &amp; computerCard &amp;&quot; &quot;&amp;computerCardName&amp; &quot;. Well done, you guessed right!&quot;" newline="True"/>
+                                    <assign variable="correctGuess" expression="1"/>
+                                </then>
+                                <else>
+                                    <output expression="&quot;The computer&#8217;s card is &quot; &amp; computerCard &amp; &quot; &quot;&amp;computerCardName&amp;  &quot;. Sorry, better luck next time.&quot;" newline="True"/>
+                                    <assign variable="correctGuess" expression="0"/>
+                                </else>
+                            </if>
+                        </then>
+                        <else>
+                            <output expression="&quot;Incorrect option, please choose H for Higher or L for Lower&quot;" newline="True"/>
+                            <input variable="guessCard"/>
+                            <call expression="checkGuessCard(guessCard, computerCard,userCard,computerCardName)"/>
+                            <assign variable="correctGuess" expression="0"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="gameMenuSelection" type="None" variable="">
+        <parameters>
+            <parameter name="gameOption" type="String" array="False"/>
+            <parameter name="username" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="exitCode" type="Boolean" array="False" size=""/>
+            <assign variable="exitCode" expression="true"/>
+            <while expression="exitCode==true">
+                <if expression="gameOption==&quot;Q&quot; || gameOption==&quot;q&quot;">
+                    <then>
+                        <assign variable="exitCode" expression="false"/>
+                    </then>
+                    <else>
+                        <if expression="gameOption==&quot;P&quot; || gameOption==&quot;p&quot;">
+                            <then>
+                                <output expression="&quot;Lets play&quot;" newline="True"/>
+                                <call expression="playGame(username)&#13;&#10;"/>
+                                <assign variable="exitCode" expression="false"/>
+                            </then>
+                            <else>
+                                <output expression="&quot;Incorrect option, please choose P for Playing the game or Q for Quitting&quot;" newline="True"/>
+                                <input variable="gameOption"/>
+                                <call expression="gameMenuSelection(gameOption,username)"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </while>
+            <output expression="&quot;Goodbye &quot;&amp; userName &amp;&quot;.&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="generateRamdomNum" type="Integer" variable="cardNum">
+        <parameters/>
+        <body>
+            <declare name="cardNum" type="Integer" array="False" size=""/>
+            <assign variable="cardNum" expression="random(13)+1"/>
+        </body>
+    </function>
+    <function name="getCardName" type="String" variable="cardName">
+        <parameters>
+            <parameter name="cardValue" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="cardName" type="String" array="False" size=""/>
+            <if expression="cardValue==13">
+                <then>
+                    <assign variable="cardName" expression="&quot;King&quot;"/>
+                </then>
+                <else>
+                    <if expression="cardValue==12">
+                        <then>
+                            <assign variable="cardName" expression="&quot;Queen&quot;"/>
+                        </then>
+                        <else>
+                            <if expression="cardValue==11">
+                                <then>
+                                    <assign variable="cardName" expression="&quot;Jack&quot;"/>
+                                </then>
+                                <else>
+                                    <if expression="cardValue==10">
+                                        <then>
+                                            <assign variable="cardName" expression="&quot;Ten&quot;"/>
+                                        </then>
+                                        <else>
+                                            <if expression="cardValue==9">
+                                                <then>
+                                                    <assign variable="cardName" expression="&quot;Nine&quot;"/>
+                                                </then>
+                                                <else>
+                                                    <if expression="cardValue==8">
+                                                        <then>
+                                                            <assign variable="cardName" expression="&quot;Eight&quot;"/>
+                                                        </then>
+                                                        <else>
+                                                            <if expression="cardValue==7">
+                                                                <then>
+                                                                    <assign variable="cardName" expression="&quot;Seven&quot;"/>
+                                                                </then>
+                                                                <else>
+                                                                    <if expression="cardValue==6">
+                                                                        <then>
+                                                                            <assign variable="cardName" expression="&quot;Six&quot;"/>
+                                                                        </then>
+                                                                        <else>
+                                                                            <if expression="cardValue==5">
+                                                                                <then>
+                                                                                    <assign variable="cardName" expression="&quot;Five&quot;"/>
+                                                                                </then>
+                                                                                <else>
+                                                                                    <if expression="cardValue==4">
+                                                                                        <then>
+                                                                                            <assign variable="cardName" expression="&quot;Four&quot;"/>
+                                                                                        </then>
+                                                                                        <else>
+                                                                                            <if expression="cardValue==3">
+                                                                                                <then>
+                                                                                                    <assign variable="cardName" expression="&quot;Three&quot;"/>
+                                                                                                </then>
+                                                                                                <else>
+                                                                                                    <if expression="cardValue==2">
+                                                                                                        <then>
+                                                                                                            <assign variable="cardName" expression="&quot;Two&quot;"/>
+                                                                                                        </then>
+                                                                                                        <else>
+                                                                                                            <assign variable="cardName" expression="&quot;Ace&quot;"/>
+                                                                                                        </else>
+                                                                                                    </if>
+                                                                                                </else>
+                                                                                            </if>
+                                                                                        </else>
+                                                                                    </if>
+                                                                                </else>
+                                                                            </if>
+                                                                        </else>
+                                                                    </if>
+                                                                </else>
+                                                            </if>
+                                                        </else>
+                                                    </if>
+                                                </else>
+                                            </if>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="playGame" type="None" variable="">
+        <parameters>
+            <parameter name="username" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="round" type="Integer" array="False" size=""/>
+            <assign variable="round" expression="0"/>
+            <declare name="totalCorrectGuess" type="Integer" array="False" size=""/>
+            <assign variable="totalCorrectGuess" expression="0"/>
+            <for variable="round" start="1" end="10" direction="inc" step="1">
+                <output expression="&quot;This is round:  &quot;&amp;round&amp;&quot; / 10&quot;" newline="True"/>
+                <declare name="userCard" type="Integer" array="False" size=""/>
+                <declare name="computerCard" type="Integer" array="False" size=""/>
+                <assign variable="userCard" expression="generateRamdomNum()"/>
+                <do expression="userCard==computerCard">
+                    <assign variable="computerCard" expression="generateRamdomNum()"/>
+                </do>
+                <declare name="userCardName" type="String" array="False" size=""/>
+                <assign variable="userCardName" expression="getCardName(userCard)"/>
+                <output expression="&quot;Your card is: &quot; &amp; userCard&amp; &quot; &quot; &amp; userCardName &amp; &quot;.&quot;" newline="True"/>
+                <output expression="&quot;Is the computer&#8217;s card higher (H) or lower (L)?&quot;" newline="True"/>
+                <declare name="guessCard" type="String" array="False" size=""/>
+                <input variable="guessCard"/>
+                <while expression="guessCard==&quot;&quot;">
+                    <output expression="&quot;Please! enter Is the computer&#8217;s card higher (H) or lower (L)?&quot;" newline="True"/>
+                    <input variable="guessCard"/>
+                </while>
+                <declare name="correctGuess" type="Integer" array="False" size=""/>
+                <declare name="computerCardName" type="String" array="False" size=""/>
+                <assign variable="computerCardName" expression="getCardName(computerCard)"/>
+                <assign variable="correctGuess" expression="checkGuessCard(guessCard, computerCard,userCard,computerCardName)"/>
+                <assign variable="totalCorrectGuess" expression="totalCorrectGuess+correctGuess"/>
+            </for>
+            <output expression="&quot;You guessed right &quot;&amp;  totalCorrectGuess &amp;&quot; /10 rounds. Have a good day &quot; &amp; username &amp; &quot; !&quot;" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
